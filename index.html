@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Super Mario Bros - Edição VR (Cardboard / VR Box)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- Standard HUD (visible in Normal Mode) -->
+    <div id="hud">
+      <span>MARIO</span>
+      <span id="score">000000</span>
+      <span>&#9733; <span id="lives">3</span></span>
+      <span>MOEDAS: <span id="coins">0</span></span>
+      <span>MUNDO 1-1</span>
+      <span>TEMPO: <span id="timer">400</span></span>
+    </div>
+
+    <!-- Main Game Canvas -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Normal Mode Touch Controls (for mobile playing without VR) -->
+    <div id="touch-controls" class="touch-controls hidden">
+      <div class="touch-dpad">
+        <button id="touch-left" class="touch-btn" aria-label="Mover para a Esquerda">◀</button>
+        <button id="touch-right" class="touch-btn" aria-label="Mover para a Direita">▶</button>
+      </div>
+      <div class="touch-actions">
+        <button id="touch-jump" class="touch-btn touch-btn-action" aria-label="Pular">PULAR</button>
+        <button id="touch-super" class="touch-btn touch-btn-action super" aria-label="Super Salto">SUPER</button>
+      </div>
+    </div>
+
+    <!-- VR In-Game Floating Quick Bar (Top of screen) -->
+    <div id="vr-hud-bar" class="vr-hud-bar hidden">
+      <button id="btn-vr-recenter" class="vr-bar-btn" title="Recentralizar Posição da Cabeça">🎯 Recentralizar</button>
+      <button id="btn-vr-settings" class="vr-bar-btn" title="Ajustes VR">⚙️ Ajustes VR</button>
+      <button id="btn-vr-exit" class="vr-bar-btn exit" title="Sair do Modo VR">✕ Sair do VR</button>
+    </div>
+
+    <!-- VR Settings Modal -->
+    <div id="vr-settings-modal" class="vr-modal hidden">
+      <div class="vr-modal-content">
+        <h2>AJUSTES DO ÓCULOS VR</h2>
+        
+        <div class="setting-row">
+          <label>Profundidade 3D (Estereoscopia):</label>
+          <div class="setting-options" id="opt-3d-depth">
+            <button class="opt-btn" data-val="0">2D (Plano)</button>
+            <button class="opt-btn" data-val="4">Baixa</button>
+            <button class="opt-btn active" data-val="8">Média</button>
+            <button class="opt-btn" data-val="12">Forte</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label>Sensibilidade da Cabeça (Giroscópio):</label>
+          <div class="setting-options" id="opt-gyro-sens">
+            <button class="opt-btn" data-val="0">Desativado</button>
+            <button class="opt-btn" data-val="8">Baixa</button>
+            <button class="opt-btn active" data-val="5">Média</button>
+            <button class="opt-btn" data-val="3">Alta</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label>Pular ao Levantar a Cabeça:</label>
+          <div class="setting-options" id="opt-nod-jump">
+            <button class="opt-btn active" data-val="true">Sim</button>
+            <button class="opt-btn" data-val="false">Não</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label>Efeito de Lentes (Vignette):</label>
+          <div class="setting-options" id="opt-vignette">
+            <button class="opt-btn active" data-val="true">Sim</button>
+            <button class="opt-btn" data-val="false">Não</button>
+          </div>
+        </div>
+
+        <div class="modal-buttons">
+          <button id="btn-close-settings" class="modal-btn-confirm">SALVAR E VOLTAR</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VR Encaixe Countdown Overlay (Split SBS guide) -->
+    <div id="vr-countdown-overlay" class="vr-countdown-overlay hidden">
+      <div class="vr-countdown-box left">
+        <div class="vr-guide-icon">👓</div>
+        <h3>ENCAIXE NO ÓCULOS</h3>
+        <p>Incline a cabeça para andar<br>Toque na tela para pular</p>
+        <div class="vr-timer-num" id="countdown-num-left">3</div>
+      </div>
+      <div class="vr-divider-guide"></div>
+      <div class="vr-countdown-box right">
+        <div class="vr-guide-icon">👓</div>
+        <h3>ENCAIXE NO ÓCULOS</h3>
+        <p>Incline a cabeça para andar<br>Toque na tela para pular</p>
+        <div class="vr-timer-num" id="countdown-num-right">3</div>
+      </div>
+    </div>
+
+    <!-- Main Title / Start Overlay (in 2D mode) -->
+    <div id="overlay">
+      <h1 id="overlay-title">SUPER MARIO</h1>
+      <p id="overlay-msg">
+        <strong>🎮 No PC / Teclado:</strong> Setas ou WASD para mover • Espaço para pular<br>
+        <strong>📱 No Celular:</strong> Use os botões na tela<br>
+        <strong>👓 No Óculos VR (VR Box / Cardboard):</strong> Incline a cabeça para andar e toque na tela para pular!
+      </p>
+      <div class="overlay-buttons">
+        <button id="overlay-btn-vr" class="btn-vr">👓 JOGAR NO ÓCULOS VR</button>
+        <button id="overlay-btn" class="btn-normal">🎮 JOGAR MODO NORMAL</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
